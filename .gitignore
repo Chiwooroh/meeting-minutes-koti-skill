@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 작업 중간 산출물 (회의록 작업 폴더에서 생성되는 임시 파일)
+*_전사.md
+*_회의록_작업본.hwpx
+
+# Node
+node_modules/
