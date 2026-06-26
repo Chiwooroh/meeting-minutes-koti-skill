@@ -1,6 +1,6 @@
 # meeting-minutes-koti 배포 패키지
 
-한국어 회의 녹음 파일을 전사하고, `.eml` 회의공지 메일을 참고하여 공무원 보고형식 회의록을 작성한 뒤, 공식 HWPX 회의록 파일을 생성하는 Codex skill입니다.
+한국어 회의 녹음 파일을 전사하고, `.eml` 회의공지 메일을 참고하여 공무원 보고형식 회의록을 작성한 뒤, 공식 HWPX 회의록 파일을 생성하는 Claude Code 스킬(Agent Skill)입니다.
 
 ## 포함 파일
 
@@ -27,22 +27,30 @@ meeting-minutes-koti-skill-package/
 
 ## 설치 방법
 
-1. ZIP 파일을 풉니다.
-2. `meeting-minutes-koti` 폴더를 Codex skill 폴더로 복사합니다.
+Claude Code 스킬은 `SKILL.md`가 든 폴더를 스킬 디렉터리(`~/.claude/skills/`)에 두면 됩니다.
+
+1. ZIP 파일을 풀거나 저장소를 클론합니다.
+2. `meeting-minutes-koti` 폴더를 Claude Code 개인 스킬 폴더로 복사합니다.
 
 Windows PowerShell:
 
 ```powershell
-Copy-Item -LiteralPath ".\meeting-minutes-koti" -Destination "$env:USERPROFILE\.codex\skills\meeting-minutes-koti" -Recurse -Force
+Copy-Item -LiteralPath ".\meeting-minutes-koti" -Destination "$env:USERPROFILE\.claude\skills\meeting-minutes-koti" -Recurse -Force
 ```
 
-3. Codex를 다시 시작합니다.
-4. 대화에서 `$meeting-minutes-koti`를 호출합니다.
+3. Claude Code를 다시 시작하거나 새 세션을 엽니다.
+4. 자연어로 회의록 작업을 요청하면 Claude가 자동으로 이 스킬을 적용하며, `/meeting-minutes-koti`로 직접 호출할 수도 있습니다.
 
 예:
 
 ```text
-$meeting-minutes-koti 이 폴더 녹음 파일들로 파일당 1개씩 회의록 작성해줘
+이 폴더 녹음 파일들로 파일당 1개씩 회의록 작성해줘
+```
+
+또는:
+
+```text
+/meeting-minutes-koti 이 폴더 녹음 파일들로 파일당 1개씩 회의록 작성해줘
 ```
 
 ## 권장 입력 파일
@@ -145,11 +153,17 @@ python ".\meeting-minutes-koti\scripts\official_hwpx_name.py" `
 
 ## 검증 방법
 
-설치 후 skill 구조 검증:
+설치 후 스킬 인식 확인:
 
-```powershell
-$env:PYTHONUTF8="1"
-python "$env:USERPROFILE\.codex\skills\.system\skill-creator\scripts\quick_validate.py" "$env:USERPROFILE\.codex\skills\meeting-minutes-koti"
+- Claude Code 새 세션에서 `/meeting-minutes-koti`가 슬래시 명령 목록에 보이면 정상 설치된 것입니다.
+- Claude Code에는 Codex의 `quick_validate.py` 같은 내장 검증기는 없습니다. 더 깊은 평가(eval)가 필요하면 공식 `skill-creator` 플러그인을 사용할 수 있습니다.
+
+스킬 폴더 구조가 다음과 같은지 확인합니다.
+
+```text
+~/.claude/skills/meeting-minutes-koti/
+  SKILL.md
+  assets/  references/  scripts/
 ```
 
 생성된 HWPX 구조 검증:

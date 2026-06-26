@@ -1,6 +1,6 @@
 ---
 name: meeting-minutes-koti
-description: Create Korean public-sector meeting minutes from audio recordings, captured meeting notice emails, and the official HWPX meeting-minutes template. Use when Codex needs to transcribe Korean meeting audio files, read .eml meeting notice emails for agenda/date/attendee context, and produce final Hangul HWPX minutes in official reporting style.
+description: Create Korean public-sector meeting minutes from audio recordings, captured meeting notice emails, and the official HWPX meeting-minutes template. Use when the user needs to transcribe Korean meeting audio files, read .eml meeting notice emails for agenda/date/attendee context, and produce final Hangul HWPX minutes in official reporting style.
 ---
 
 # Meeting Minutes KOTI
@@ -27,7 +27,7 @@ Transcripts, Markdown drafts, DOCX files, validation extracts, and experimental 
 2. Transcribe each audio file locally with Whisper:
 
 ```powershell
-python "C:\Users\KOTI\.codex\skills\meeting-minutes-koti\scripts\transcribe_local_whisper.py" `
+python "$env:USERPROFILE\.claude\skills\meeting-minutes-koti\scripts\transcribe_local_whisper.py" `
   --out ".\recording_1_전사.md" `
   ".\recording_1.mp3"
 ```
@@ -37,7 +37,7 @@ Use `scripts/transcribe_local_whisper.py` as the only transcription path. It loa
 3. Read captured meeting notice emails when `.eml` files exist:
 
 ```powershell
-python "C:\Users\KOTI\.codex\skills\meeting-minutes-koti\scripts\parse_eml_notice.py" `
+python "$env:USERPROFILE\.claude\skills\meeting-minutes-koti\scripts\parse_eml_notice.py" `
   --out ".\회의공지_참고정보.md" `
   ".\notice.eml"
 ```
@@ -55,7 +55,7 @@ Use notice email content as context, not as a substitute for the transcript. Pre
 5. Fill the HWPX template:
 
 ```powershell
-python "C:\Users\KOTI\.codex\skills\meeting-minutes-koti\scripts\minutes_md_to_hwpx_template.py" `
+python "$env:USERPROFILE\.claude\skills\meeting-minutes-koti\scripts\minutes_md_to_hwpx_template.py" `
   --template ".\회의록_양식.hwpx" `
   --input ".\recording_1_회의록.md" `
   --output ".\recording_1_회의록_작업본.hwpx" `
@@ -65,7 +65,7 @@ python "C:\Users\KOTI\.codex\skills\meeting-minutes-koti\scripts\minutes_md_to_h
 6. Rename the verified HWPX to the official filename:
 
 ```powershell
-python "C:\Users\KOTI\.codex\skills\meeting-minutes-koti\scripts\official_hwpx_name.py" `
+python "$env:USERPROFILE\.claude\skills\meeting-minutes-koti\scripts\official_hwpx_name.py" `
   --input ".\recording_1_회의록.md" `
   --directory "."
 ```
@@ -125,7 +125,7 @@ npx --yes --package kordoc --package pdfjs-dist kordoc ".\final.hwpx"
 For fallback Markdown to HWPX generation, use the `markdownToHwpx()` Node API from `kordoc`. Prefer the template-filling script whenever the official template exists.
 
 ```powershell
-node "C:\Users\KOTI\.codex\skills\meeting-minutes-koti\scripts\markdown_to_hwpx.mjs" ".\회의록.md" ".\회의록.hwpx"
+node "$env:USERPROFILE\.claude\skills\meeting-minutes-koti\scripts\markdown_to_hwpx.mjs" ".\회의록.md" ".\회의록.hwpx"
 ```
 
 ## Resources
